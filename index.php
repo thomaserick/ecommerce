@@ -12,8 +12,8 @@ $app->config('debug', true);
 
 $app->get('/', function() {
 
-  $page = new Hcode\Page();
-  $page->setTpl("index");
+    $page = new Hcode\Page();
+    $page->setTpl("index");
 
 
     echo json_encode($results);
@@ -53,6 +53,39 @@ $app->get('/admin/logout', function() {
     header("Location: /admin/login");
     exit;
 });
+
+$app->get('/admin/users', function() {
+
+    User::verifyLogin();
+    #$users = User::listAll();
+
+    $page = new Hcode\PageAdmin();
+
+    $page->setTpl("users");
+});
+
+$app->get('admin/users/:iduser', function($iduser) {
+
+    User::verifyLogin();
+    $page = new Hcode\PageAdmin();
+
+    $page->setTpl("user-update");
+});
+
+$app->post('/admin/users/create', function($iduser) {
+
+    User::verifyLogin();
+});
+$app->post("/admin/users/:iduser", function($iduser) {
+
+    User::verifyLogin();
+});
+
+$app->delete("/admin/users/:iduser", function($iduser) {
+
+    User::verifyLogin();
+});
+
 
 $app->run();
 ?>
